@@ -1,0 +1,48 @@
+# /getitemshop - (permission: getitemshop.use)
+# /getitemshop add {username} {service_id} - (permission: getitemshop.admin)
+# /getitemshop remove {username} {service_id} - (permission: getitemshop.admin)
+mysql:
+  host: localhost
+  username: root
+  password: ""
+  database: itemshop
+  port: 3306
+  ssl: false
+
+command: "getitemshop"
+# cooldown at second
+cooldown: 5
+
+inv:
+  size: 54
+  title: "&0Itemshop"
+
+lang:
+  no-services: "&cNie posiadasz uslugi!"
+  cooldown-cmd: "&cMusisz poczekac {time} sek!"
+  successfully-recived: "&aPomyslnie odebrano {service}!"
+
+
+services:
+  key_1:
+    name: "&aVip na 7 dni"
+    item:
+      material: PAPER
+      displayname: "&e * * &fV I P &e* *"
+      lore:
+        - "&7"
+        - "&eKliknij aby odebrac!"
+      glow: true
+    commands:
+      - "say Gracz {player} odebral vipa!"
+  key_2:
+    name: "&5Klucz epicki"
+    item:
+      material: PAPER
+      displayname: "&5 * * &fKlucz EPICKI &5* *"
+      lore:
+        - "&7"
+        - "&eKliknij aby odebrac!"
+      glow: true
+    commands:
+      - "say Gracz {player} odebral klucze!"
