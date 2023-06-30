@@ -42,8 +42,7 @@ public class InventoryClickListener implements Listener {
                 if(!serviceByItem.isPresent())
                     return;
 
-                getPlugin().getUserManager().useService(player, serviceByItem.get());
-                user.refreshInv(event.getSlot());
+                getPlugin().getUserManager().useService(user, serviceByItem.get());
                 return;
             }
             return;

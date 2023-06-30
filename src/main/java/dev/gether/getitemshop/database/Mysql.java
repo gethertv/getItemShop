@@ -138,7 +138,7 @@ public class Mysql {
                 "service_key VARCHAR(32), " +
                 "service_status VARCHAR(32), " +
                 "d_o_c TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, " +
-                "d_o_u TIMESTAMP DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP" +
+                "d_o_u TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP" +
                 ")";
 
         update(create);

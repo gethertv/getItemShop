@@ -6,8 +6,9 @@ import dev.gether.getitemshop.listener.InventoryClickListener;
 import dev.gether.getitemshop.service.ServiceManager;
 import dev.gether.getitemshop.user.UserManager;
 import dev.gether.getitemshop.utils.ColorFixer;
-import dev.gether.getitemshop.utils.ItemBackground;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.event.HandlerList;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -24,9 +25,8 @@ public final class GetItemShop extends JavaPlugin {
     @Override
     public void onEnable() {
         // Plugin startup logic
+        instance = this;
         saveDefaultConfig();
-
-        injectBgItem();
 
         mysqlManager = new MysqlManager(this);
         if(!mysqlManager.isConnected())
@@ -45,16 +45,10 @@ public final class GetItemShop extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+        Bukkit.getScheduler().cancelTasks(this);
+        HandlerList.unregisterAll(this);
     }
 
-    private void injectBgItem()
-    {
-        ItemBackground.BACKGROUND_ITEM = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
-        ItemMeta itemMeta =  ItemBackground.BACKGROUND_ITEM.getItemMeta();
-        itemMeta.setDisplayName(ColorFixer.addColors("&7"));
-        ItemBackground.BACKGROUND_ITEM.setItemMeta(itemMeta);
-    }
     public static GetItemShop getInstance() {
         return instance;
     }

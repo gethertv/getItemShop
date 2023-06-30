@@ -4,15 +4,16 @@ import dev.gether.getitemshop.GetItemShop;
 import dev.gether.getitemshop.service.Service;
 import dev.gether.getitemshop.service.ServiceStatus;
 import dev.gether.getitemshop.utils.ColorFixer;
-import dev.gether.getitemshop.utils.ItemBackground;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
@@ -37,17 +38,9 @@ public class UserManager {
                     player.sendMessage(ColorFixer.addColors(plugin.getConfig().getString("lang.no-services")));
                     return;
                 }
-                Inventory inventory = Bukkit.createInventory(
-                        null,
-                        plugin.getConfig().getInt("inv.size"),
-                        ColorFixer.addColors(plugin.getConfig().getString("inv.title")));
-
-                for (Service service : services) {
-                    inventory.addItem(service.getItemStack());
-                }
-                inventory = fillBackground(inventory);
-                userData.put(player.getUniqueId(), new User(player, inventory));
-                player.openInventory(inventory);
+                User user = new User(player, services);
+                userData.put(player.getUniqueId(), user);
+                user.openInv();
             }
 
             @Override
@@ -57,9 +50,9 @@ public class UserManager {
         });
     }
 
-    public void useService(Player player, Service service)
+    public void useService(User user, Service service)
     {
-        checkUserService(player.getName(), service, ServiceStatus.TO_BE_COLLECTED, new ItemShopCallback() {
+        checkUserService(user.getPlayer().getName(), service, ServiceStatus.TO_BE_COLLECTED, new ItemShopCallback() {
             @Override
             public void queryDone(List<Service> services) {
 
@@ -68,10 +61,13 @@ public class UserManager {
             public void queryAddService(boolean status) {
                 if(status)
                 {
-                    player.sendMessage(ColorFixer.addColors(plugin.getConfig().getString("lang.successfully-recived").replace("{service}", service.getName())));
+                    user.getPlayer().sendMessage(ColorFixer.addColors(plugin.getConfig().getString("lang.successfully-recived").replace("{service}", service.getName())));
                    service.getCommands().forEach(cmd -> {
-                       Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd.replace("{player}", player.getName()));
+                       Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd.replace("{player}", user.getPlayer().getName()));
                    });
+
+                   user.getServices().remove(service);
+                   user.openInv();
                 }
             }
         });
@@ -115,16 +111,7 @@ public class UserManager {
             }
         });
     }
-    private Inventory fillBackground(Inventory inventory) {
-        ItemStack itemStack = ItemBackground.BACKGROUND_ITEM;
 
-        for (int i = 0; i < inventory.getSize(); i++) {
-            if(inventory.getItem(i)==null)
-                inventory.setItem(i, itemStack);
-        }
-
-        return inventory;
-    }
 
     public void checkUserService(String username, Service service, ServiceStatus serviceStatus, final ItemShopCallback callback)
     {
