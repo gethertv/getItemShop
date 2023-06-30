@@ -39,8 +39,7 @@ public final class GetItemShop extends JavaPlugin {
         userManager = new UserManager(this);
 
         getServer().getPluginManager().registerEvents(new InventoryClickListener(this), this);
-        getServer().getCommandMap().register(getConfig().getString("command"), new GetItemShopCommand(getConfig().getString("command"), this));
-
+        new GetItemShopCommand(this);
     }
 
     @Override

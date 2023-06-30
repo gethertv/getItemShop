@@ -2,3 +2,7 @@ name: getItemShop
 version: '${project.version}'
 main: dev.gether.getitemshop.GetItemShop
 api-version: 1.16
+commands:
+  getodbierz:
+    aliases:
+      - "odbierz"

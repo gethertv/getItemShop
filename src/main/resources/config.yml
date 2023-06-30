@@ -9,7 +9,6 @@ mysql:
   port: 3306
   ssl: false
 
-command: "getitemshop"
 # cooldown at second
 cooldown: 5
 
