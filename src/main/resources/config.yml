@@ -12,6 +12,9 @@ mysql:
 # cooldown at second
 cooldown: 5
 
+
+notification: true
+
 inv:
   size: 36
   title: "&0Itemshop"
@@ -20,6 +23,10 @@ lang:
   no-services: "&cNie posiadasz uslugi!"
   cooldown-cmd: "&cMusisz poczekac {time} sek!"
   successfully-recived: "&aPomyslnie odebrano {service}!"
+  have-serivce:
+    title: "&aPosidasz uslugi!"
+    subtitle: "&7wpisz &e/itemshop"
+    chat: "&aPosiadasz uslugi do odebrania, pod komenda /itemshop"
 
 serv-slots: [10, 11, 12, 13, 14, 15, 16, 19, 20, 21, 22, 23, 24, 25]
 

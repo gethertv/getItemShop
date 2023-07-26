@@ -2,6 +2,7 @@ package dev.gether.getitemshop;
 
 import dev.gether.getitemshop.commands.GetItemShopCommand;
 import dev.gether.getitemshop.database.MysqlManager;
+import dev.gether.getitemshop.listener.ConnectListener;
 import dev.gether.getitemshop.listener.InventoryClickListener;
 import dev.gether.getitemshop.service.ServiceManager;
 import dev.gether.getitemshop.user.UserManager;
@@ -38,7 +39,9 @@ public final class GetItemShop extends JavaPlugin {
         serviceManager = new ServiceManager(this);
         userManager = new UserManager(this);
 
-        getServer().getPluginManager().registerEvents(new InventoryClickListener(this), this);
+        new InventoryClickListener(this);
+        new ConnectListener(this);
+
         new GetItemShopCommand(this);
     }
 
